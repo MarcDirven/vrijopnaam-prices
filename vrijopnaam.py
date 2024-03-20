@@ -1,0 +1,12 @@
+class VrijOpNaam:
+    USERNAME = 'username'
+    PASSWORD = 'password'
+    CSRF_TOKEN = 'csrfmiddlewaretoken'
+    ASK_STAY_SIGNED_IN = 'ask_stay_signed_in'
+    STAY_SIGNED_IN_BTN = 'stay_signed_in_btn'
+    URL = 'https://vrijopnaam.app'
+    PRICING_ELECTRICITY = 'pricing-electricity'
+    PRICING_GAS = 'pricing-gas'
+    ON = 'on'
+    YES = 'yes'
+    VRIJOPNAAM_PASSWORD = 'VRIJOPNAAM_PASSWORD'
