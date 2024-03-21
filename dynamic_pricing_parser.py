@@ -4,27 +4,22 @@ from typing import Iterable
 
 
 def parse_prices(htmls: Iterable[str]) -> DynamicPrices:
-    prices = DynamicPrices()
+    dynamic_prices = DynamicPrices()
     for html in htmls:
-        soup = bs4.BeautifulSoup(html, features='html.parser')
-        if (result := soup.find('title')) and 'Gas' in result.text:
-            table = __parse_gas_prices(soup)
-            prices.add(table)
-        elif (result := soup.find('title')) and 'Stroom' in result.text:
-            table = __parse_electricity_prices(soup)
-            prices.add(table)
-    return prices
+        table = bs4.BeautifulSoup(html, features='html.parser')
+        pricing_table = table.find('table', class_='pricing-table')
 
+        if not pricing_table:
+            raise RuntimeError('Table with class pricing-table was not found')
 
-def __parse_electricity_prices(html: bs4.BeautifulSoup):
-    pricing_table = html.find('table', class_='pricing-table')
-    if not pricing_table:
-        raise RuntimeError('Table with class pricing-table was not found')
-    return DynamicElectricityPrices(pricing_table)
+        prices = None
+        if (result := table.find('title')) and 'Gas' in result.text:
+            prices = DynamicGasPrices(pricing_table)
+        elif (result := table.find('title')) and 'Stroom' in result.text:
+            prices = DynamicElectricityPrices(pricing_table)
 
+        if prices:
+            dynamic_prices.add(prices)
 
-def __parse_gas_prices(html: bs4.BeautifulSoup):
-    pricing_table = html.find('table', class_='pricing-table')
-    if not pricing_table:
-        raise RuntimeError('Table with class pricing-table was not found')
-    return DynamicGasPrices(pricing_table)
+    return dynamic_prices
+

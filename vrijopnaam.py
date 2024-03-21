@@ -1,4 +1,6 @@
 class VrijOpNaam:
+    VRIJOPNAAM_USERNAME = 'VRIJOPNAAM_USERNAME'
+    VRIJOPNAAM_PASSWORD = 'VRIJOPNAAM_PASSWORD'
     USERNAME = 'username'
     PASSWORD = 'password'
     CSRF_TOKEN = 'csrfmiddlewaretoken'
@@ -9,7 +11,6 @@ class VrijOpNaam:
     PRICING_GAS = 'pricing-gas'
     ON = 'on'
     YES = 'yes'
-    VRIJOPNAAM_PASSWORD = 'VRIJOPNAAM_PASSWORD'
     SESSION_ID = 'sessionid'
     TODAY = 'Vandaag'
     YESTERDAY = 'Gisteren'
