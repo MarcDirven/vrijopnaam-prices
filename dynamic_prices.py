@@ -2,6 +2,8 @@ import bs4
 from typing import Iterable
 import parse_utils as pu
 from datetime import datetime, timedelta
+from vrijopnaam import VrijOpNaam
+from dateutil.relativedelta import relativedelta
 
 
 class DayPrice:
@@ -34,102 +36,141 @@ class DayPrice:
     end_time = property(fget=_get_end_time)
 
 
-class DynamicPrice:
-    def __init__(self, start: int, end: int, price_today: float, price_tomorrow: float):
-        self.__hour_start = start
-        self.__hour_end = end
-        time = datetime.now()
+class TimeBoundedPrice:
+    def __init__(self, start: datetime, end: datetime, price: float):
+        self.__start_time = start
+        self.__end_time = end
+        self.__price = price
 
-        self.__price_today = DayPrice(price_today, datetime(time.year, time.month, time.day, start),
-                                      datetime(time.year, time.month, time.day, end))
-        time += timedelta(days=1)
-        self.__price_tomorrow = DayPrice(price_tomorrow, datetime(time.year, time.month, time.day, start),
-                                         datetime(time.year, time.month, time.day, end))
+    def _get_price(self) -> float:
+        return self.__price
 
-    def _get_hour_start(self) -> int:
-        return self.__hour_start
+    def _get_start_time(self) -> datetime:
+        return self.__start_time
 
-    def _get_hour_end(self) -> int:
-        return self.__hour_end
-
-    def _get_price_today(self) -> DayPrice:
-        return self.__price_today
-
-    def _get_price_tomorrow(self) -> DayPrice:
-        return self.__price_tomorrow
+    def _get_end_time(self) -> datetime:
+        return self.__end_time
 
     def to_json(self) -> dict:
         return {
-            'hourStart': self.hour_start,
-            'hourEnd': self.hour_end,
-            'today': self.price_today.to_json(),
-            'tomorrow': self.__price_tomorrow.to_json()
+            'startTime': self.hour_start.replace(microsecond=0).isoformat(),
+            'endTime': self.hour_end.replace(microsecond=0).isoformat(),
+            'price': self.price,
         }
 
-    hour_start = property(fget=_get_hour_start)
-    hour_end = property(fget=_get_hour_end)
-    price_today = property(fget=_get_price_today)
-    price_tomorrow = property(fget=_get_price_tomorrow)
+    hour_start = property(fget=_get_start_time)
+    hour_end = property(fget=_get_end_time)
+    price = property(fget=_get_price)
 
 
-class DynamicPrices:
-    def __init__(self, cur: str, power_unit: str, table: bs4.BeautifulSoup):
+def _make_prices_json(cur: str, unit: str, prices: Iterable):
+    return {
+        'currency': cur,
+        'unit': unit,
+        'prices': list(prices)
+    }
+
+
+class DynamicPrice:
+    def __init__(self, cur: str, unit: str, table: bs4.BeautifulSoup, price_type: str):
         self.__currency = cur
-        self.__power_unit = power_unit
+        self.__unit = unit
         self._table = table
+        self.__type = price_type
 
     def __get_currency(self) -> str:
         return self.__currency
 
-    def __get_power_unit(self) -> str:
-        return self.__power_unit
+    def __get_unit(self) -> str:
+        return self.__unit
 
+    def __get_type(self):
+        return self.__type
+
+    def get_prices(self) -> Iterable[TimeBoundedPrice]:
+        pass
+
+    def _get_date_offset_from_day(self, day: str) -> datetime:
+        pass
+
+    def to_json(self):
+        pass
+
+    type = property(fget=__get_type)
     currency = property(fget=__get_currency)
-    power_unit = property(fget=__get_power_unit)
+    unit = property(fget=__get_unit)
 
 
-class DynamicGasPrices(DynamicPrices):
-    def __init__(self, cur: str, power_unit: str, table: bs4.BeautifulSoup):
-        super().__init__(cur, power_unit, table)
+class DynamicGasPrices(DynamicPrice):
+    def __init__(self, table: bs4.BeautifulSoup):
+        cur, unit = pu.get_units(pu.remove_whitespace(table.find_all('th')[1].text))
+        super().__init__(cur, unit, table, 'gas')
 
+    def _get_date_offset_from_day(self, day: str) -> datetime:
+        pass
 
-class DynamicElectricityPrices(DynamicPrices):
-    def __init__(self, cur: str, power_unit: str, avg_today: float, avg_tomorrow: float, table: bs4.BeautifulSoup,
-                 day: str):
-        super().__init__(cur, power_unit, table)
-        self.__table_value_left = ''
-        self.__table_value_right = ''
-        self.__average_today = avg_today
-        self.__average_tomorrow = avg_tomorrow
-        self.__day = day
-
-    def __get_average_today(self) -> float:
-        return self.__average_today
-
-    def __get_average_tomorrow(self) -> float:
-        return self.__average_tomorrow
-
-    def __parse_body_today(self) -> Iterable[DynamicPrice]:
-        body = self._table.find('tbody').find_all('tr')
-        for record in body:
-            period, price_today, price_tomorrow = record.find_all('td')
-            start, end = pu.get_start_to(pu.remove_whitespace(period.find('span').text))
-            price_today = pu.get_price(price_today)
-            price_tomorrow = pu.get_price(price_tomorrow)
-            yield DynamicPrice(start, end, price_today, price_tomorrow)
-
-    def __get_prices(self):
-        return self.__parse_body_today()
+    def get_prices(self) -> Iterable[TimeBoundedPrice]:
+        body = self._table.find('tbody')
+        pricing_now = pu.make_float(pu.remove_whitespace(body.find('tr', class_='pricing-now').find_all('td')[2].text))
+        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + relativedelta(days=1)
+        yield TimeBoundedPrice(start, end, pricing_now)
 
     def to_json(self) -> dict:
-        return {
-            'currency': self.currency,
-            'powerUnit': self.power_unit,
-            'averageToday': self.average_today,
-            'averageTomorrow': self.average_tomorrow,
-            'pricesPerHour': [price.to_json() for price in self.prices_per_hour]
-        }
+        return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.get_prices()))
 
-    average_today = property(fget=__get_average_today)
-    average_tomorrow = property(fget=__get_average_tomorrow)
-    prices_per_hour = property(fget=__get_prices)
+
+class DynamicElectricityPrices(DynamicPrice):
+    def __init__(self, table: bs4.BeautifulSoup):
+        _, left, right = table.find('thead').find_all('th')
+        left, right = pu.remove_whitespace(left.text), pu.remove_whitespace(right.text)
+        currency_l, unit_l = pu.get_units(left)
+        currency_r, unit_r = pu.get_units(right)
+        assert currency_l == currency_r and unit_l == unit_r
+
+        super().__init__(currency_l, unit_r, table, 'electricity')
+        self.__day_left = pu.get_day(left)
+        self.__day_right = pu.get_day(right)
+
+    def _get_date_offset_from_day(self, day: str) -> datetime:
+        time = datetime.now()
+        if day == VrijOpNaam.YESTERDAY:
+            time -= relativedelta(days=1)
+        elif day == VrijOpNaam.TOMORROW:
+            time += relativedelta(days=1)
+        return time.replace(microsecond=0, hour=0, second=0, minute=0)
+
+    def get_prices(self) -> Iterable[TimeBoundedPrice]:
+        body = self._table.find('tbody').find_all('tr')
+        for record in body:
+            period, price_left, price_right = record.find_all('td')
+            start, end = pu.get_start_to(pu.remove_whitespace(period.find('span').text))
+            price_left, price_right = pu.get_price(price_left), pu.get_price(price_right)
+
+            start_hour_left = self._get_date_offset_from_day(self.__day_right)
+            start_hour_right = self._get_date_offset_from_day(self.__day_left)
+
+            end_hour_left = start_hour_left.replace(hour=end)
+            end_hour_right = start_hour_right.replace(hour=end)
+
+            # End is 0 (which means start is 23), so this means midnight, next day
+            if end == 0:
+                end_hour_left += relativedelta(days=1)
+                end_hour_right += relativedelta(days=1)
+
+            yield TimeBoundedPrice(start_hour_left.replace(hour=start), end_hour_left, price_left)
+            yield TimeBoundedPrice(start_hour_right.replace(hour=start), end_hour_right, price_right)
+
+    def to_json(self) -> dict:
+        return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.get_prices()))
+
+
+class DynamicPrices:
+    def __init__(self):
+        self.__dynamic_prices = []
+
+    def add(self, d_pricing: DynamicPrice):
+        self.__dynamic_prices.append(d_pricing)
+
+    def to_json(self) -> dict[list]:
+        return {d.type: d.to_json() for d in self.__dynamic_prices}

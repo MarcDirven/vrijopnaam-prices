@@ -10,9 +10,13 @@ def get_header(theads: bs4.ResultSet, text: str) -> bs4.PageElement | None:
     return next((t for t in theads if text in t.text), None)
 
 
+def get_day(d: str) -> str:
+    return d.split(' ')[0]
+
+
 def get_units(s: str) -> Tuple[str, str]:
-    currency, power_unit = s.split(' ')[1].split('/')
-    return currency, power_unit
+    currency, unit = s.split(' ')[1].split('/')
+    return currency, unit
 
 
 def make_float(s: str) -> float:

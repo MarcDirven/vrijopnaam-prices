@@ -10,3 +10,7 @@ class VrijOpNaam:
     ON = 'on'
     YES = 'yes'
     VRIJOPNAAM_PASSWORD = 'VRIJOPNAAM_PASSWORD'
+    SESSION_ID = 'sessionid'
+    TODAY = 'Vandaag'
+    YESTERDAY = 'Gisteren'
+    TOMORROW = 'Morgen'
