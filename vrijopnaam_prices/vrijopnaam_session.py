@@ -1,7 +1,7 @@
 import aiohttp
 import itertools
 import bs4
-from vrijopnaam import VrijOpNaam
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 import asyncio
 from typing import Iterable
 

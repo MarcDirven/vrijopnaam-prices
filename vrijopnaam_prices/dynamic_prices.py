@@ -1,9 +1,10 @@
 import bs4
 from typing import Iterable, Any
-import parse_utils as pu
-from datetime import datetime, timedelta
-from vrijopnaam import VrijOpNaam
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
+
+import vrijopnaam_prices.parse_utils as pu
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 
 
 class DayPrice:

@@ -1,18 +1,9 @@
-import os
-import json
-
-import asyncio
 import argparse
-import dynamic_pricing_parser as parser
-from vrijopnaam import VrijOpNaam
-from vrijopnaam_session import VrijOpNaamSession
-
-
-async def get_prices(username: str, password: str, gas_price: bool = True, electricity_price: bool = True):
-    async with VrijOpNaamSession(username, password) as session:
-        await session.login()
-        htmls = await session.scrape_prices(gas_price, electricity_price)
-    return parser.parse_prices(htmls)
+from vrijopnaam_prices.vrijopnaam_prices import get_prices
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
+import json
+import os
+import asyncio
 
 
 async def __run_main():

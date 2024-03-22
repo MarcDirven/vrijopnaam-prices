@@ -7,7 +7,7 @@ This repository scrapes the dynamic gas and/or electricity prices from https://v
 - Install requirements.txt `pip install -r requirements.txt`
 - Set your password under key environment variable `VRIJOPNAAM_PASSWORD` or pass it directly to the script
 - Set your username under key environment variable `VRIJOPNAAM_USERNAME` or pass it directly to the script
-- Usage: `python main.py [--username <username>] [--password <password>] [--pretty-output] [--gas-prices] [--electricity-prices]`
+- Usage: `python get_vrijopnaam_prices.py [--username <username>] [--password <password>] [--pretty-output] [--gas-prices] [--electricity-prices]`
 - or: 
 ```python
 import vrijopnaam_prices as prices

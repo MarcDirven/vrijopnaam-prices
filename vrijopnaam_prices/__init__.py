@@ -1,0 +1,1 @@
+from vrijopnaam_prices.vrijopnaam_prices import get_prices

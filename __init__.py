@@ -1,1 +1,0 @@
-from vrijopnaam_prices import get_prices
