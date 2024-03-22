@@ -12,11 +12,13 @@ def parse_prices(htmls: Iterable[str]) -> DynamicPrices:
         if not pricing_table:
             raise RuntimeError('Table with class pricing-table was not found')
 
-        prices = None
-        if (result := table.find('title')) and 'Gas' in result.text:
+        result = table.find('title')
+        if result and 'Gas' in result.text:
             prices = DynamicGasPrices(pricing_table)
-        elif (result := table.find('title')) and 'Stroom' in result.text:
+        elif result and 'Stroom' in result.text:
             prices = DynamicElectricityPrices(pricing_table)
+        else:
+            raise RuntimeError('There was no table found with a title')
 
         if prices:
             dynamic_prices.add(prices)

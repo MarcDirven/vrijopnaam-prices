@@ -1,4 +1,5 @@
 import aiohttp
+import itertools
 import bs4
 from vrijopnaam import VrijOpNaam
 import asyncio
@@ -58,6 +59,7 @@ class VrijOpNaamSession:
                 self.__url, cookies=self.__cookies, data=self.__body, headers={'Referer': self.__url}) as resp_3:
             self.__body[VrijOpNaam.CSRF_TOKEN] = _get_csrf_middleware_token(await resp_3.text())
             self.__url = str(resp_3.real_url).removesuffix('/')
+            self.__cookies = resp_3.cookies
 
     async def login(self):
         await self.__main_page()
@@ -65,11 +67,8 @@ class VrijOpNaamSession:
         await self.__stay_signed_in()
 
     async def scrape_prices(self, fetch_gas_prices: bool, fetch_electricity_prices: bool) -> Iterable[str]:
-        urls = [
-            f'{self.__url}/{sub}' for sub, do_add in
-            {VrijOpNaam.PRICING_ELECTRICITY: fetch_gas_prices, VrijOpNaam.PRICING_GAS: fetch_electricity_prices}.items()
-            if do_add
-        ]
-        tasks = (_fetch(url, self.__session, cookies=self.__cookies, data=self.__body,
-                        headers={'Referer': url}) for url in urls)
+        urls = itertools.compress(VrijOpNaam.PRICING_TABS, [fetch_gas_prices, fetch_electricity_prices])
+        urls = (f'{self.__url}/{url}' for url in urls)
+        tasks = (_fetch(url, self.__session, cookies=self.__cookies, data=self.__body, headers={'Referer': url})
+                 for url in urls)
         return await asyncio.gather(*tasks)

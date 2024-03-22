@@ -27,7 +27,7 @@ def get_average(s: str) -> float:
     return make_float(s.split(' ')[-1])
 
 
-def get_start_to(s: str) -> Tuple[int, int]:
+def get_start_end(s: str) -> Tuple[int, int]:
     start, end = s.split(' - ')
     return int(start), int(end)
 

@@ -15,3 +15,4 @@ class VrijOpNaam:
     TODAY = 'Vandaag'
     YESTERDAY = 'Gisteren'
     TOMORROW = 'Morgen'
+    PRICING_TABS = (PRICING_ELECTRICITY, PRICING_GAS)
