@@ -6,7 +6,7 @@ import os
 import asyncio
 
 
-async def __run_main():
+async def main():
     p = argparse.ArgumentParser()
     p.add_argument('--username', required=False, type=str, default=os.getenv(VrijOpNaam.VRIJOPNAAM_USERNAME))
     p.add_argument('--password', required=False, type=str, default=os.getenv(VrijOpNaam.VRIJOPNAAM_PASSWORD))
@@ -19,5 +19,11 @@ async def __run_main():
     print(pretty_json.decode())
 
 
+def start():
+    loop = asyncio.new_event_loop()
+    loop.run_until_complete(main())
+    loop.close()
+
+
 if __name__ == '__main__':
-    asyncio.run(__run_main())
+    start()

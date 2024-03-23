@@ -5,12 +5,18 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.poetry.scripts]
+get_vrijopnaam_prices = "get_vrijopnaam_prices:start"
+
+[tool.setuptools]
+packages = "find:"
+
 [project]
 name = "vrijopnaam-prices"
 version = "0.1"
 description = "Commandline tool/library to fetch gas/electricity prices from https://vrijopnaam.app/"
 authors = [
-    { name="Marc Dirven" }
+    { name = "Marc Dirven" }
 ]
 dependencies = [
     "beautifulsoup4==4.12.3",
