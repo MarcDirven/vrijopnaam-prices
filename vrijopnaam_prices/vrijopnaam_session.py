@@ -1,7 +1,6 @@
 import aiohttp
-import itertools
 import bs4
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
+from vrijopnaam import VrijOpNaam
 import asyncio
 from typing import Iterable
 
@@ -13,6 +12,21 @@ def _get_csrf_middleware_token(html: str) -> str:
 async def _fetch(url: str, session: aiohttp.ClientSession, **kwargs):
     async with session.get(url, **kwargs) as r:
         return await r.text()
+
+
+class ConditionalFetch:
+    def __init__(self, do_fetch: bool, url: str):
+        self.__fetch = do_fetch
+        self.__url = url
+
+    def __get_url(self):
+        return self.__url
+
+    def __condition(self):
+        return self.__fetch
+
+    url = property(fget=__get_url)
+    condition = property(fget=__condition)
 
 
 class VrijOpNaamSession:
@@ -66,9 +80,8 @@ class VrijOpNaamSession:
         await self.__login()
         await self.__stay_signed_in()
 
-    async def scrape_prices(self, fetch_gas_prices: bool, fetch_electricity_prices: bool) -> Iterable[str]:
-        urls = itertools.compress(VrijOpNaam.PRICING_TABS, [fetch_gas_prices, fetch_electricity_prices])
-        urls = (f'{self.__url}/{url}' for url in urls)
+    async def scrape_prices(self, price_fetchers: Iterable[ConditionalFetch]) -> Iterable[str]:
+        urls = (f'{self.__url}/{pf.url}' for pf in price_fetchers if pf.condition)
         tasks = (_fetch(url, self.__session, cookies=self.__cookies, data=self.__body, headers={'Referer': url})
                  for url in urls)
         return await asyncio.gather(*tasks)

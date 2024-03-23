@@ -1,6 +1,6 @@
 import argparse
-from vrijopnaam_prices.vrijopnaam_prices import get_prices
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
+from vrijopnaam_prices import get_prices
+from vrijopnaam import VrijOpNaam
 import json
 import os
 import asyncio
