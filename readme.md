@@ -17,7 +17,7 @@ This repository scrapes the dynamic gas and/or electricity prices from https://v
 - or:
 
 ```python
-import get_vrijopnaam_prices as prices
+import vrijopnaam_prices.get_vrijopnaam_prices as prices
 import asyncio
 
 
