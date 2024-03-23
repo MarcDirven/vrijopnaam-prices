@@ -12,7 +12,7 @@ This repository scrapes the dynamic gas and/or electricity prices from https://v
     - Powershell (Windows) `.\venv\Scripts\activate.ps1`
     - Batch (Windows) `.\venv\Scripts\activate.bat`
 - `pip install git+https://github.com/MarcDirven/vrijopnaam-prices`
-- Usage: `get_vrijopnaam_prices [--username, -u <username>] [--password, -p <password>] [--pretty-output] [--gas-prices, -g] [--electricity-prices, -e]`
+- Usage: `get-vrijopnaam-prices [--username, -u <username>] [--password, -p <password>] [--pretty-output] [--gas-prices, -g] [--electricity-prices, -e]`
 - or: 
 ```python
 import vrijopnaam_prices as prices
