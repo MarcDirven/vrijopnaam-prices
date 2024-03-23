@@ -8,6 +8,6 @@ setup(
     version='0.1',
     description='Een korte beschrijving van jouw pakket',
     author='Marc Dirven',
-    packages=['.'],  # Vervang dit met de naam van jouw Python packages
+    packages=['vrijopnaam_prices'],
     install_requires=install_requires
 )
