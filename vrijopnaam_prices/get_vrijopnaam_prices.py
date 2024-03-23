@@ -1,9 +1,13 @@
-import argparse
-from vrijopnaam_prices.vrijopnaam_prices import get_prices
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
-import json
+import sys
 import os
+import json
+import argparse
 import asyncio
+
+sys.path.append(os.path.join(os.environ['VIRTUAL_ENV'], '..'))
+
+from vrijopnaam_prices.prices import get_prices
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 
 
 async def main():
