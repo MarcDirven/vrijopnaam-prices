@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vrijopnaam-prices"
 version = "0.1"
-description = "Een korte beschrijving van jouw pakket"
+description = "Commandline tool/library to fetch gas/electricity prices from https://vrijopnaam.app/"
 authors = [
     { name="Marc Dirven" }
 ]
