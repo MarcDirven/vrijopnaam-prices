@@ -3,8 +3,8 @@ from typing import Iterable, Any
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-import parse_utils as pu
-from vrijopnaam import VrijOpNaam
+import vrijopnaam_prices.parse_utils as pu
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 
 
 class DayPrice:

@@ -1,5 +1,5 @@
 import bs4
-from dynamic_prices import DynamicPrices, DynamicElectricityPrices, DynamicGasPrices
+from vrijopnaam_prices.dynamic_prices import DynamicPrices, DynamicElectricityPrices, DynamicGasPrices
 from typing import Iterable
 
 

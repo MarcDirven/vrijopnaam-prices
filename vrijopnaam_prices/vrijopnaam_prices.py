@@ -1,6 +1,6 @@
-from vrijopnaam_session import VrijOpNaamSession, ConditionalFetch
-import dynamic_pricing_parser as parser
-from vrijopnaam import VrijOpNaam
+from vrijopnaam_prices.vrijopnaam_session import VrijOpNaamSession, ConditionalFetch
+import vrijopnaam_prices.dynamic_pricing_parser as parser
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 
 import sys
 
