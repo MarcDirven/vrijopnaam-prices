@@ -1,0 +1,19 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vrijopnaam-prices"
+version = "0.1"
+description = "Een korte beschrijving van jouw pakket"
+authors = [
+    { name="Marc Dirven" }
+]
+dependencies = [
+    "beautifulsoup4==4.12.3",
+    "aiohttp==3.9.3",
+    "python-dateutil==2.9.0.post0"
+]
