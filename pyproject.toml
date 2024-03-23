@@ -5,11 +5,11 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
-[tool.poetry.scripts]
-get_vrijopnaam_prices = "get_vrijopnaam_prices:start"
-
 [tool.setuptools]
-packages = ["vrijopnaam_prices"]
+packages = ["vrijopnaam_prices", "."]
+
+[project.scripts]
+get-vrijopnaam-prices = "vrijopnaam_prices.get_vrijopnaam_prices:start"
 
 [project]
 name = "vrijopnaam-prices"
