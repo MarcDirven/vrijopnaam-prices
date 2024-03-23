@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 get_vrijopnaam_prices = "get_vrijopnaam_prices:start"
 
 [tool.setuptools]
-packages = { find = { where = ["vrijopnaam_prices"]}}
+packages = ["vrijopnaam_prices"]
 
 [project]
 name = "vrijopnaam-prices"
