@@ -8,22 +8,25 @@ This repository scrapes the dynamic gas and/or electricity prices from https://v
   - Create venv `python -m venv venv` (optional)
   
   - Activate the venv:
-    - Linux users `. venv/bin/activte
+    - Linux users `. venv/bin/activate
     - Powershell (Windows) `.\venv\Scripts\activate.ps1`
     - Batch (Windows) `.\venv\Scripts\activate.bat`
 - `pip install git+https://github.com/MarcDirven/vrijopnaam-prices`
-- Usage: `get-vrijopnaam-prices [--username, -u <username>] [--password, -p <password>] [--pretty-output] [--gas-prices, -g] [--electricity-prices, -e]`
-- or: 
+- `--indent, -i` can be used to beautify the json output
+- Usage: `get-vrijopnaam-prices [--username, -u <username>] [--password, -p <password>] [--gas-prices, -g] [--electricity-prices, -e] [--indent <number>]`
+- or:
+
 ```python
-import vrijopnaam_prices as prices
+import get_vrijopnaam_prices as prices
 import asyncio
 
+
 async def main():
-    p = await prices.get_prices('username', 'password')
-    json_format = p.to_json()
-    print(json_format)
-    
+  p = await prices.get_prices('username', 'password')
+  json_format = p.to_json()
+  print(json_format)
+
 
 if __name__ == '__main__':
-    asyncio.run(main())
+  asyncio.run(main())
 ```
