@@ -14,7 +14,7 @@ async def main():
     p.add_argument('--electricity-prices', action='store_true')
     p.add_argument('--gas-prices', action='store_true')
     args = p.parse_args()
-    prices = (await get_prices(args.username, args.password)).to_json()
+    prices = (await get_prices(args.username, args.password, args.gas_prices, args.electricity_prices)).to_json()
     pretty_json = json.dumps(prices, indent=4 if args.pretty_output else None, ensure_ascii=False).encode('utf8')
     print(pretty_json.decode())
 
