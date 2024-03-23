@@ -1,13 +1,13 @@
 This repository scrapes the dynamic gas and/or electricity prices from https://vrijopnaam.app. The code contains command-line functionality and import functionality.
 
 # Requirements
-- Clone repo (or use `pip install git+https://github.com/MarcDirven/vrijopnaam-prices`)
-- Create venv `python -m venv venv`
-- Activate the venv (usage: `activate[.ps1 | .bat]`) 
-- Install requirements.txt `pip install -r requirements.txt`
+- `pip install git+https://github.com/MarcDirven/vrijopnaam-prices`
+- Optionally:
+  - Create venv `python -m venv venv` (optional)
+  - Activate the venv (usage: `activate[.ps1 | .bat]`)
 - Set your password under key environment variable `VRIJOPNAAM_PASSWORD` or pass it directly to the script
 - Set your username under key environment variable `VRIJOPNAAM_USERNAME` or pass it directly to the script
-- Usage: `python get_vrijopnaam_prices.py [--username <username>] [--password <password>] [--pretty-output] [--gas-prices] [--electricity-prices]`
+- Usage: `get_vrijopnaam_prices [--username <username>] [--password <password>] [--pretty-output] [--gas-prices] [--electricity-prices]`
 - or: 
 ```python
 import vrijopnaam_prices as prices
