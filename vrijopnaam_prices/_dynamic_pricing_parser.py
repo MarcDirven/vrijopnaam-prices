@@ -1,16 +1,18 @@
 import bs4
-from vrijopnaam_prices.dynamic_prices import DynamicPrices, DynamicElectricityPrices, DynamicGasPrices
 from typing import Iterable
+
+from vrijopnaam_prices.dynamic_prices import DynamicPrices, DynamicElectricityPrices, DynamicGasPrices
+from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 
 
 def parse_prices(htmls: Iterable[str]) -> DynamicPrices:
     dynamic_prices = DynamicPrices()
     for html in htmls:
         table = bs4.BeautifulSoup(html, features='html.parser')
-        pricing_table = table.find('table', class_='pricing-table')
+        pricing_table = table.find('table', class_=VrijOpNaam.PRICING_TABLE)
 
         if not pricing_table:
-            raise RuntimeError('Table with class pricing-table was not found')
+            raise RuntimeError(f'Table with class "{VrijOpNaam.PRICING_TABLE}" was not found')
 
         result = table.find('title')
         if result and 'Gas' in result.text:
