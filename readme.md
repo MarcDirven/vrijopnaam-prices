@@ -8,7 +8,7 @@ This repository scrapes the dynamic gas and/or electricity prices from https://v
   - Create venv `python -m venv venv` (optional)
   
   - Activate the venv:
-    - Linux users `. venv/bin/activate
+    - Linux users `. venv/bin/activate`
     - Powershell (Windows) `.\venv\Scripts\activate.ps1`
     - Batch (Windows) `.\venv\Scripts\activate.bat`
 - `pip install git+https://github.com/MarcDirven/vrijopnaam-prices`
