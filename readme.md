@@ -5,7 +5,7 @@ This repository scrapes the dynamic gas and/or electricity prices from https://v
 - Optional:
   - Set your password under key environment `VRIJOPNAAM_PASSWORD` (or pass it directly to the script)
   - Set your username under key environment `VRIJOPNAAM_USERNAME` (or pass it directly to the script)
-  - Create venv `python -m venv venv` (optional)
+  - Create venv `python -m venv venv`
   
   - Activate the venv:
     - Linux users `. venv/bin/activate`
