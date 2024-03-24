@@ -3,65 +3,10 @@ from typing import Iterable, Any
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-import vrijopnaam_prices.parse_utils as pu
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
-
-
-class DayPrice:
-    def __init__(self, price: float, start_time: datetime, end_time: datetime):
-        self.__price = price
-        self.__start_time = start_time
-        self.__end_time = end_time
-
-    def to_json(self) -> dict:
-        converted_dict = {}
-        for name in vars(self):
-            converted = pu.to_pascal_case(name.removeprefix('_DayPrice__'))
-            value = getattr(self, name)
-            if isinstance(value, datetime):
-                value = value.strftime('%Y-%m-%d %H:%M:%S')
-            converted_dict[converted] = value
-        return converted_dict
-
-    def _get_price(self) -> float:
-        return self.__price
-
-    def _get_start_time(self) -> datetime:
-        return self.__start_time
-
-    def _get_end_time(self) -> datetime:
-        return self.__end_time
-
-    price = property(fget=_get_price)
-    start_time = property(fget=_get_start_time)
-    end_time = property(fget=_get_end_time)
-
-
-class TimeBoundedPrice:
-    def __init__(self, start: datetime, end: datetime, price: float):
-        self.__start_time = start
-        self.__end_time = end
-        self.__price = price
-
-    def _get_price(self) -> float:
-        return self.__price
-
-    def _get_start_time(self) -> datetime:
-        return self.__start_time
-
-    def _get_end_time(self) -> datetime:
-        return self.__end_time
-
-    def to_json(self) -> dict[str, Any]:
-        return {
-            'startTime': self.hour_start.replace(microsecond=0).isoformat(),
-            'endTime': self.hour_end.replace(microsecond=0).isoformat(),
-            'price': self.price,
-        }
-
-    hour_start = property(fget=_get_start_time)
-    hour_end = property(fget=_get_end_time)
-    price = property(fget=_get_price)
+import vrijopnaam_prices._parse_utils as pu
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
+from vrijopnaam_prices.dynamic_price import DynamicPrice
+from vrijopnaam_prices.time_bounded_price import TimeBoundedPrice
 
 
 def _make_prices_json(cur: str, unit: str, prices: Iterable) -> dict[str, Any]:
@@ -72,31 +17,13 @@ def _make_prices_json(cur: str, unit: str, prices: Iterable) -> dict[str, Any]:
     }
 
 
-class DynamicPrice:
-    def __init__(self, cur: str, unit: str, table: bs4.BeautifulSoup, price_type: str):
-        self.__currency = cur
-        self.__unit = unit
-        self._table = table
-        self.__type = price_type
-
-    def __get_currency(self) -> str:
-        return self.__currency
-
-    def __get_unit(self) -> str:
-        return self.__unit
-
-    def __get_type(self) -> str:
-        return self.__type
-
-    def get_prices(self) -> Iterable[TimeBoundedPrice]:
-        pass
-
-    def to_json(self):
-        pass
-
-    type = property(fget=__get_type)
-    currency = property(fget=__get_currency)
-    unit = property(fget=__get_unit)
+def _get_date_offset_from_day(day: str) -> datetime:
+    time = datetime.now()
+    if day == VrijOpNaam.YESTERDAY:
+        time -= relativedelta(days=1)
+    elif day == VrijOpNaam.TOMORROW:
+        time += relativedelta(days=1)
+    return time.replace(microsecond=0, hour=0, second=0, minute=0)
 
 
 class DynamicGasPrices(DynamicPrice):
@@ -120,15 +47,6 @@ class DynamicGasPrices(DynamicPrice):
 
     def to_json(self) -> dict[str, Any]:
         return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.get_prices()))
-
-
-def _get_date_offset_from_day(day: str) -> datetime:
-    time = datetime.now()
-    if day == VrijOpNaam.YESTERDAY:
-        time -= relativedelta(days=1)
-    elif day == VrijOpNaam.TOMORROW:
-        time += relativedelta(days=1)
-    return time.replace(microsecond=0, hour=0, second=0, minute=0)
 
 
 class DynamicElectricityPrices(DynamicPrice):

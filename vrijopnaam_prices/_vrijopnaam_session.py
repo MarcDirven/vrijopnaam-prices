@@ -1,6 +1,6 @@
 import aiohttp
 import re
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 import asyncio
 from typing import Iterable
 

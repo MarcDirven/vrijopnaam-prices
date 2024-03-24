@@ -2,7 +2,7 @@ import bs4
 from typing import Iterable
 
 from vrijopnaam_prices.dynamic_prices import DynamicPrices, DynamicElectricityPrices, DynamicGasPrices
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 
 
 def parse_prices(htmls: Iterable[str]) -> DynamicPrices:

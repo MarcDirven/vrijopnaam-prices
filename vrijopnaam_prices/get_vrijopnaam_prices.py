@@ -4,14 +4,14 @@ import argparse
 import asyncio
 
 from vrijopnaam_prices.prices import get_prices
-from vrijopnaam_prices.vrijopnaam import VrijOpNaam
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 
 
 async def main():
     p = argparse.ArgumentParser()
     p.add_argument('--username', '-u', required=False, type=str, default=os.getenv(VrijOpNaam.VRIJOPNAAM_USERNAME))
     p.add_argument('--password', '-p', required=False, type=str, default=os.getenv(VrijOpNaam.VRIJOPNAAM_PASSWORD))
-    p.add_argument('--indent', '-i', type=int, default=None)
+    p.add_argument('--indent', '-i', type=int, required=False, default=None)
     p.add_argument('--electricity-prices', '-e', action='store_true')
     p.add_argument('--gas-prices', '-g', action='store_true')
     args = p.parse_args()
