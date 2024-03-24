@@ -1,12 +1,16 @@
 import aiohttp
-import bs4
+import re
 from vrijopnaam_prices.vrijopnaam import VrijOpNaam
 import asyncio
 from typing import Iterable
 
 
-def _get_csrf_middleware_token(html: str) -> str:
-    return bs4.BeautifulSoup(html, features='html.parser').html['data-csrf-token']
+async def _get_csrf_middleware_token(response: aiohttp.ClientResponse) -> str:
+    while not response.content.at_eof():
+        line = str(await response.content.readline())
+        m = re.search(r'(?<=data-csrf-token=")[^"^\']*', line)
+        if m:
+            return m.group()
 
 
 async def _fetch(url: str, session: aiohttp.ClientSession, **kwargs):
@@ -50,7 +54,7 @@ class VrijOpNaamSession:
 
     async def __main_page(self):
         async with self.__session.get(VrijOpNaam.URL) as resp_1:
-            self.__body[VrijOpNaam.CSRF_TOKEN] = _get_csrf_middleware_token(await resp_1.text())
+            self.__body[VrijOpNaam.CSRF_TOKEN] = await _get_csrf_middleware_token(resp_1)
             self.__url = str(resp_1.real_url)
             self.__cookies = resp_1.cookies
 
@@ -63,7 +67,7 @@ class VrijOpNaamSession:
             self.__url = str(resp_2.real_url)
             self.__cookies = resp_2.cookies
             self.__body = {
-                VrijOpNaam.CSRF_TOKEN: _get_csrf_middleware_token(await resp_2.text()),
+                VrijOpNaam.CSRF_TOKEN: await _get_csrf_middleware_token(resp_2),
                 VrijOpNaam.STAY_SIGNED_IN_BTN: VrijOpNaam.YES,
                 VrijOpNaam.ASK_STAY_SIGNED_IN: VrijOpNaam.ON
             }
@@ -71,7 +75,7 @@ class VrijOpNaamSession:
     async def __stay_signed_in(self):
         async with self.__session.post(
                 self.__url, cookies=self.__cookies, data=self.__body, headers={'Referer': self.__url}) as resp_3:
-            self.__body[VrijOpNaam.CSRF_TOKEN] = _get_csrf_middleware_token(await resp_3.text())
+            self.__body[VrijOpNaam.CSRF_TOKEN] = await _get_csrf_middleware_token(resp_3)
             self.__url = str(resp_3.real_url).removesuffix('/')
             self.__cookies = resp_3.cookies
 
