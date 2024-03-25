@@ -5,8 +5,8 @@ import asyncio
 import json
 import os
 
-from vrijopnaam_prices._vrijopnaam import VrijOpNaam
-from vrijopnaam_prices.prices import get_prices
+from _vrijopnaam import VrijOpNaam
+from prices import get_prices
 
 
 async def main():
@@ -32,5 +32,4 @@ def start():
     loop.close()
 
 
-if __name__ == '__main__':
-    start()
+start()

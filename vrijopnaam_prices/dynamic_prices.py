@@ -6,10 +6,12 @@ from typing import Any, Iterable
 import bs4
 from dateutil.relativedelta import relativedelta
 
-import vrijopnaam_prices._parse_utils as pu
-from vrijopnaam_prices._vrijopnaam import VrijOpNaam
-from vrijopnaam_prices.dynamic_price import DynamicPrice
-from vrijopnaam_prices.time_bounded_price import TimeBoundedPrice
+import _parse_utils as pu
+from _vrijopnaam import VrijOpNaam
+from dynamic_price import DynamicPrice
+from time_bounded_price import TimeBoundedPrice
+
+__all__ = ["DynamicGasPrices", "DynamicElectricityPrices", "DynamicPrices"]
 
 
 def _make_prices_json(cur: str, unit: str, prices: Iterable) -> dict[str, Any]:

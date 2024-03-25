@@ -2,9 +2,9 @@
 
 import sys
 
-import vrijopnaam_prices._dynamic_pricing_parser as parser
-from vrijopnaam_prices._vrijopnaam import VrijOpNaam
-from vrijopnaam_prices._vrijopnaam_session import ConditionalFetch, VrijOpNaamSession
+import _dynamic_pricing_parser as parser
+from _vrijopnaam import VrijOpNaam
+from _vrijopnaam_session import ConditionalFetch, VrijOpNaamSession
 
 if sys.version_info[0] < 3 and sys.version_info[1] < 10:
     raise RuntimeError("You're not running Python 3.10 or higher, be using Python 3.10 at least")
