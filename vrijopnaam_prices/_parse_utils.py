@@ -1,3 +1,5 @@
+""" Helper module for web scraping """
+
 import bs4
 from typing import Tuple
 

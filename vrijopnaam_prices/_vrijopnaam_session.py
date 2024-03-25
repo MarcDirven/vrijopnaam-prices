@@ -1,3 +1,5 @@
+""" module that can is used to fetch resources from vrijopnaam """
+
 import aiohttp
 import re
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam

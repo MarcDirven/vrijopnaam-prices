@@ -1,3 +1,5 @@
+""" Module that gets the DynamicPrices from a given html """
+
 import bs4
 from typing import Iterable
 

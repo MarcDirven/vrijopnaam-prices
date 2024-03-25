@@ -1,3 +1,5 @@
+""" Command line tool to fetch dynamic prices """
+
 import os
 import json
 import argparse

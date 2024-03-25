@@ -1,3 +1,5 @@
+""" Module that contains time bounded price, that is used to indicate the time of the pricing """
+
 from datetime import datetime
 from typing import Any
 

@@ -1,3 +1,5 @@
+""" Module that contains all the types for dynamic pricing i.e. gas, electricity """
+
 import bs4
 from typing import Iterable, Any
 from dateutil.relativedelta import relativedelta
