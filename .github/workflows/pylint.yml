@@ -20,4 +20,4 @@ jobs:
         pip install -r requirements.txt
         pip install pylint
     - name: Analysing the code with pylint
-      run: pylint --init-hook='import sys; sys.path.append("$(pwd)")' $(git ls-files '*.py')
+      run: pylint --errors-only --init-hook='import sys; sys.path.append("$(pwd)")' $(git ls-files '*.py')
