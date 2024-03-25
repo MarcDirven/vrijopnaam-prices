@@ -1,4 +1,5 @@
 from typing import Iterable
+import bs4
 
 from vrijopnaam_prices.time_bounded_price import TimeBoundedPrice
 

@@ -11,6 +11,7 @@ async def _get_csrf_middleware_token(response: aiohttp.ClientResponse) -> str:
         m = re.search(r'(?<=data-csrf-token=")[^"^\']*', line)
         if m:
             return m.group()
+    raise RuntimeError('No property found with name "data-csrf-token"')
 
 
 async def _fetch(url: str, session: aiohttp.ClientSession, **kwargs):
@@ -48,7 +49,7 @@ class VrijOpNaamSession:
     async def __aexit__(self, *args, **kwargs):
         await self.close()
 
-    async def close(self) -> None:
+    async def close(self):
         if not self.__session.closed:
             await self.__session.close()
 

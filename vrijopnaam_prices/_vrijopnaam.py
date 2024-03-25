@@ -20,3 +20,5 @@ class VrijOpNaam:
     TOMORROW: Final[str] = 'Morgen'
     PRICING_TABS: Final[Tuple[str, ...]] = (PRICING_GAS, PRICING_ELECTRICITY)
     PRICING_TABLE: Final[str] = 'pricing-table'
+    GAS: Final[str] = 'Gas'
+    ELECTRICITY: Final[str] = 'Stroom'
