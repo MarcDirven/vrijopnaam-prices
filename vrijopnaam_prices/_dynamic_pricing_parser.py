@@ -27,4 +27,3 @@ def parse_prices(htmls: Iterable[str]) -> DynamicPrices:
             dynamic_prices.add(prices)
 
     return dynamic_prices
-
