@@ -24,4 +24,5 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         source venv/bin/activate
+        echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
         pylint $(git ls-files '*.py')
