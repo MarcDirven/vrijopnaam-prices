@@ -19,7 +19,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pylint
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
     - name: Analysing the code with pylint
-      run: |
-        echo "PYTHONPATH=vrijopnaam-prices" >> $GITHUB_ENV
-        pylint $(git ls-files '*.py')
+      run: pylint $(git ls-files '*.py')
