@@ -16,14 +16,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m venv venv
-        source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pylint
-    - name: Set Pythonpath
-      run: echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
     - name: Analysing the code with pylint
       run: |
         source venv/bin/activate
-        pylint $(git ls-files '*.py')
+        pylint --init-hook='import sys; sys.path.append("$(pwd)") $(git ls-files '*.py')
