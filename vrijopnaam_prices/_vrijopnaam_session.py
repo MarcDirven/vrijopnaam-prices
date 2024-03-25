@@ -1,10 +1,12 @@
 """ module that can is used to fetch resources from vrijopnaam """
 
-import aiohttp
-import re
-from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 import asyncio
+import re
 from typing import Iterable
+
+import aiohttp
+
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 
 
 async def _get_csrf_middleware_token(response: aiohttp.ClientResponse) -> str:

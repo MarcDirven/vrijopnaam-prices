@@ -1,10 +1,11 @@
 """ Module that gets the DynamicPrices from a given html """
 
-import bs4
 from typing import Iterable
 
-from vrijopnaam_prices.dynamic_prices import DynamicPrices, DynamicElectricityPrices, DynamicGasPrices
+import bs4
+
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam
+from vrijopnaam_prices.dynamic_prices import DynamicElectricityPrices, DynamicGasPrices, DynamicPrices
 
 
 def parse_prices(htmls: Iterable[str]) -> DynamicPrices:

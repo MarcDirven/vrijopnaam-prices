@@ -1,6 +1,7 @@
 """ Base class for all other types of dynamic prices """
 
 from typing import Iterable
+
 import bs4
 
 from vrijopnaam_prices.time_bounded_price import TimeBoundedPrice

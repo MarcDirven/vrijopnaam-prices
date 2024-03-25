@@ -1,12 +1,12 @@
 """ Command line tool to fetch dynamic prices """
 
-import os
-import json
 import argparse
 import asyncio
+import json
+import os
 
-from vrijopnaam_prices.prices import get_prices
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam
+from vrijopnaam_prices.prices import get_prices
 
 
 async def main():

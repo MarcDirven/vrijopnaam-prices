@@ -1,9 +1,10 @@
 """ Module that contains all the types for dynamic pricing i.e. gas, electricity """
 
-import bs4
-from typing import Iterable, Any
-from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from typing import Any, Iterable
+
+import bs4
+from dateutil.relativedelta import relativedelta
 
 import vrijopnaam_prices._parse_utils as pu
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam

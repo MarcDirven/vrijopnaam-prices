@@ -1,7 +1,8 @@
 """ Helper module for web scraping """
 
-import bs4
 from typing import Tuple
+
+import bs4
 
 
 def remove_whitespace(s: str) -> str:
