@@ -1,5 +1,3 @@
-""" module that can is used to fetch resources from vrijopnaam """
-
 import asyncio
 import re
 from typing import Iterable

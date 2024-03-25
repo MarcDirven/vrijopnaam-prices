@@ -1,5 +1,3 @@
-""" Module that contains all the types for dynamic pricing i.e. gas, electricity """
-
 from datetime import datetime
 from typing import Any, Iterable
 

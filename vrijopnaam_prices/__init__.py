@@ -1,4 +1,3 @@
-""" Init for vrijopnaam_prices """
 from typing import Tuple
 
 from prices import get_prices

@@ -1,5 +1,3 @@
-""" Command line tool to fetch dynamic prices """
-
 import argparse
 import asyncio
 import json

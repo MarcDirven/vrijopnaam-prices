@@ -1,5 +1,3 @@
-""" Module for all constants """
-
 from typing import Final, Tuple
 
 

@@ -1,5 +1,3 @@
-""" Base class for all other types of dynamic prices """
-
 from typing import Iterable
 
 import bs4

@@ -1,5 +1,3 @@
-""" Main module that gets the prices from vrijopnaam """
-
 import sys
 
 import _dynamic_pricing_parser as parser
