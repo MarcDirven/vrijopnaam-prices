@@ -41,8 +41,6 @@ class ConditionalFetch:
 class VrijOpNaamSession:
     def __init__(self, username: str, password: str):
         self.__session = aiohttp.ClientSession()
-        self.__username = username
-        self.__password = password
         self.__body = {VrijOpNaam.USERNAME: username, VrijOpNaam.PASSWORD: password}
         self.__url = ''
         self.__cookies = None
