@@ -6,4 +6,4 @@ from time_bounded_price import TimeBoundedPrice
 from dynamic_prices import DynamicGasPrices, DynamicElectricityPrices, DynamicPrices
 
 
-__all__: Tuple[str, ...] = ["prices", "time_bounded_price", "dynamic_prices"]
+__all__: Tuple[str, ...] = ("prices", "time_bounded_price", "dynamic_prices")
