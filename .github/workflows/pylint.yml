@@ -21,8 +21,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pylint
+    - name: Set Pythonpath
+      run: echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
     - name: Analysing the code with pylint
       run: |
         source venv/bin/activate
-        echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
         pylint $(git ls-files '*.py')
