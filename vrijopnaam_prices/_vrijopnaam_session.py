@@ -4,7 +4,7 @@ from typing import Iterable
 
 import aiohttp
 
-from _vrijopnaam import VrijOpNaam
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 
 
 async def _get_csrf_middleware_token(response: aiohttp.ClientResponse) -> str:

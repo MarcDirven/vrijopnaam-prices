@@ -2,7 +2,7 @@ from typing import Iterable
 
 import bs4
 
-from time_bounded_price import TimeBoundedPrice
+from vrijopnaam_prices.time_bounded_price import TimeBoundedPrice
 
 
 class DynamicPrice:

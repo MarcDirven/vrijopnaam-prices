@@ -3,8 +3,8 @@ import asyncio
 import json
 import os
 
-from _vrijopnaam import VrijOpNaam
-from prices import get_prices
+from vrijopnaam_prices._vrijopnaam import VrijOpNaam
+from vrijopnaam_prices.prices import get_prices
 
 
 async def main():
