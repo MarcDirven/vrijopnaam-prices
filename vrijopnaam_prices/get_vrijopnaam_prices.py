@@ -30,4 +30,5 @@ def start():
     loop.close()
 
 
-start()
+if __name__ == '__main__':
+    start()
