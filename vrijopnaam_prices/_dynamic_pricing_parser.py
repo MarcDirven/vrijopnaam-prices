@@ -1,14 +1,15 @@
 from typing import Iterable
-
+import asyncio
 import bs4
 
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 from vrijopnaam_prices.dynamic_prices import DynamicElectricityPrices, DynamicGasPrices, DynamicPrices
 
 
-def parse_prices(htmls: Iterable[str]) -> DynamicPrices:
+async def parse_prices(html_futures: Iterable[asyncio.Future[str]]) -> DynamicPrices:
     dynamic_prices = DynamicPrices()
-    for html in htmls:
+    for html_future in html_futures:
+        html = await html_future
         table = bs4.BeautifulSoup(html, features='html.parser')
         pricing_table = table.find('table', class_=VrijOpNaam.PRICING_TABLE)
 

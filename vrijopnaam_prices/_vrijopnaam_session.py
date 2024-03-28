@@ -85,8 +85,8 @@ class VrijOpNaamSession:
         await self.__login()
         await self.__stay_signed_in()
 
-    async def scrape_prices(self, price_fetchers: Iterable[ConditionalFetch]) -> Iterable[str]:
+    def scrape_prices(self, price_fetchers: Iterable[ConditionalFetch]) -> Iterable[asyncio.Future]:
         urls = (f'{self.__url}/{pf.url}' for pf in price_fetchers if pf.condition)
-        tasks = (_fetch(url, self.__session, cookies=self.__cookies, data=self.__body, headers={'Referer': url})
-                 for url in urls)
-        return await asyncio.gather(*tasks)
+        tasks = [_fetch(url, self.__session, cookies=self.__cookies, data=self.__body, headers={'Referer': url})
+                 for url in urls]
+        return asyncio.as_completed(tasks)
