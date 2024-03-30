@@ -24,7 +24,6 @@ async def parse_prices(html_futures: Iterable[asyncio.Future[str]]) -> DynamicPr
         else:
             raise RuntimeError('There was no table found with a title')
 
-        if prices:
-            dynamic_prices.add(prices)
+        dynamic_prices.add(prices)
 
     return dynamic_prices
