@@ -34,7 +34,8 @@ class DynamicGasPrices(DynamicPrice):
         cur, unit = pu.get_units(pu.remove_whitespace(table.find_all('th')[1].text))
         super().__init__(cur, unit, table, 'gas')
 
-    def get_prices(self) -> Iterable[TimeBoundedPrice]:
+    @property
+    def prices(self) -> Iterable[TimeBoundedPrice]:
         body = self._table.find('tbody')
         all_tr = body.find_all('tr')
         pricing_today = pu.make_float(pu.remove_whitespace(all_tr[0].find_all('td')[2].text))
@@ -49,7 +50,7 @@ class DynamicGasPrices(DynamicPrice):
         yield TimeBoundedPrice(start_yesterday, start_today, pricing_yesterday)
 
     def to_json(self) -> dict[str, Any]:
-        return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.get_prices()))
+        return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.prices))
 
 
 class DynamicElectricityPrices(DynamicPrice):
@@ -64,7 +65,8 @@ class DynamicElectricityPrices(DynamicPrice):
         self.__day_left = pu.get_day(left)
         self.__day_right = pu.get_day(right)
 
-    def get_prices(self) -> Iterable[TimeBoundedPrice]:
+    @property
+    def prices(self) -> Iterable[TimeBoundedPrice]:
         body = self._table.find('tbody').find_all('tr')
         for record in body:
             period, price_left, price_right = record.find_all('td')
@@ -86,7 +88,7 @@ class DynamicElectricityPrices(DynamicPrice):
             yield TimeBoundedPrice(start_hour_right.replace(hour=start), end_hour_right, price_right)
 
     def to_json(self) -> dict[str, Any]:
-        return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.get_prices()))
+        return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.prices))
 
 
 class DynamicPrices:

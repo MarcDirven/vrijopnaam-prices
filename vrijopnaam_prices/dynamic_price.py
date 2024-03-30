@@ -12,21 +12,21 @@ class DynamicPrice:
         self._table = table
         self.__type = price_type
 
-    def __get_currency(self) -> str:
+    @property
+    def currency(self) -> str:
         return self.__currency
 
-    def __get_unit(self) -> str:
+    @property
+    def unit(self) -> str:
         return self.__unit
 
-    def __get_type(self) -> str:
+    @property
+    def type(self) -> str:
         return self.__type
 
-    def get_prices(self) -> Iterable[TimeBoundedPrice]:
-        pass
+    @property
+    def prices(self) -> Iterable[TimeBoundedPrice]:
+        raise
 
     def to_json(self):
         pass
-
-    type = property(fget=__get_type)
-    currency = property(fget=__get_currency)
-    unit = property(fget=__get_unit)

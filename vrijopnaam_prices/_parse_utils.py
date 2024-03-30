@@ -35,8 +35,3 @@ def get_start_end(s: str) -> Tuple[int, int]:
 
 def get_price(record: bs4.BeautifulSoup) -> float:
     return make_float(remove_whitespace(record.text))
-
-
-def to_pascal_case(name: str) -> str:
-    components = name.split('_')
-    return ''.join(components[0].lower() + ''.join(x.title() for x in components[1:]))
