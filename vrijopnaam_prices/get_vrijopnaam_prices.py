@@ -20,7 +20,7 @@ async def main():
         args.gas_prices, args.electricity_prices = True, True
 
     prices = (await get_prices(args.username, args.password, args.gas_prices, args.electricity_prices)).to_json()
-    pretty_json = json.dumps(prices, indent=args.indent, ensure_ascii=False)
+    pretty_json = json.dumps(prices, indent=args.indent, ensure_ascii=False).encode('utf8')
     print(pretty_json.decode())
 
 
