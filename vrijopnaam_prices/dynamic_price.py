@@ -7,7 +7,7 @@ from vrijopnaam_prices.time_bounded_price import TimeBoundedPrice
 
 class DynamicPrice:
     def __init__(self, cur: str, unit: str, table: bs4.BeautifulSoup, price_type: str):
-        self.__currency = cur.encode().decode('utf-8')
+        self.__currency = cur
         self.__unit = unit
         self._table = table
         self.__type = price_type
