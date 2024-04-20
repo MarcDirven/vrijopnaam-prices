@@ -85,7 +85,6 @@ class DynamicElectricityPrices(DynamicPrice):
                 end_hour_right += relativedelta(days=1)
 
             yield TimeBoundedPrice(start_hour_left.replace(hour=start), end_hour_left, price_left)
-            yield TimeBoundedPrice(start_hour_right.replace(hour=start), end_hour_right, price_right)
 
     def to_json(self) -> dict[str, Any]:
         return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.prices))
