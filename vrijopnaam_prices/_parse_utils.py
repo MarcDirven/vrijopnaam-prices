@@ -15,8 +15,16 @@ def get_day(d: str) -> str:
     return d.split(' ')[0]
 
 
+UNITS = {'kwh': 'kWh', 'mj': 'MJ', 'm3': 'm³', 'mwh': 'MWh', 'wh': 'Wh', 'gj': 'GJ'}
+
 def get_units(s: str) -> Tuple[str, str]:
     currency, unit = s.split(' ')[1].split('/')
+    
+    if unit.lower() in UNITS:
+        unit = UNITS[unit.lower()]
+        
+    if currency == '€':
+        currency = 'EUR'
     return currency, unit
 
 
