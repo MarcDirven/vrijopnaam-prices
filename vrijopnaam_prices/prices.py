@@ -14,5 +14,5 @@ async def get_prices(username: str, password: str, gas_price: bool = True, elect
 
     async with VrijOpNaamSession(username, password) as session:
         await session.login()
-        htmls = session.scrape_prices(to_fetch)
+        htmls = await session.scrape_prices(to_fetch)
         return await parser.parse_prices(htmls)

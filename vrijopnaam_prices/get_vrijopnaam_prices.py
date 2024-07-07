@@ -2,6 +2,7 @@ import argparse
 import json
 import asyncio
 import os
+import sys
 
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam
 from vrijopnaam_prices.prices import get_prices
@@ -20,8 +21,7 @@ async def main():
         args.gas_prices, args.electricity_prices = True, True
 
     prices = (await get_prices(args.username, args.password, args.gas_prices, args.electricity_prices)).to_json()
-    pretty_json = json.dumps(prices, indent=args.indent, ensure_ascii=False).encode('utf8')
-    print(pretty_json.decode())
+    json.dump(prices, sys.stdout, indent=args.indent, ensure_ascii=False)
     return 0
 
 

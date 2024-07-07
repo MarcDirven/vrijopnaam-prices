@@ -95,8 +95,11 @@ class DynamicPrices:
     def __init__(self):
         self.__dynamic_prices: list[DynamicPrice] = []
 
-    def add(self, d_pricing: DynamicPrice):
-        self.__dynamic_prices.append(d_pricing)
+    def add(self, d_pricing: DynamicPrice | Iterable[DynamicPrice]):
+        if isinstance(d_pricing, Iterable):
+            self.__dynamic_prices.extend(d_pricing)
+        else:
+            self.__dynamic_prices.append(d_pricing)
 
     def to_json(self) -> dict[str, dict[str, Any]]:
         return {d.type: d.to_json() for d in self.__dynamic_prices}
