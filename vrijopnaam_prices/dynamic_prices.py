@@ -46,8 +46,8 @@ class DynamicGasPrices(DynamicPrice):
         end_today = start_today + relativedelta(days=1)
         start_yesterday = start_today - relativedelta(days=1)
 
-        yield TimeBoundedPrice(start_today, end_today, pricing_today)
-        yield TimeBoundedPrice(start_yesterday, start_today, pricing_yesterday)
+        yield TimeBoundedPrice(start_today, end_today, pricing_today, VrijOpNaam.TODAY)
+        yield TimeBoundedPrice(start_yesterday, start_today, pricing_yesterday, VrijOpNaam.YESTERDAY)
 
     def to_json(self) -> dict[str, Any]:
         return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.prices))
@@ -73,8 +73,8 @@ class DynamicElectricityPrices(DynamicPrice):
             start, end = pu.get_start_end(pu.remove_whitespace(period.find('span').text))
             price_left, price_right = pu.get_price(price_left), pu.get_price(price_right)
 
-            start_hour_left = _get_date_offset_from_day(self.__day_right)
-            start_hour_right = _get_date_offset_from_day(self.__day_left)
+            start_hour_left = _get_date_offset_from_day(self.__day_left)
+            start_hour_right = _get_date_offset_from_day(self.__day_right)
 
             end_hour_left = start_hour_left.replace(hour=end)
             end_hour_right = start_hour_right.replace(hour=end)
@@ -84,7 +84,8 @@ class DynamicElectricityPrices(DynamicPrice):
                 end_hour_left += relativedelta(days=1)
                 end_hour_right += relativedelta(days=1)
 
-            yield TimeBoundedPrice(start_hour_left.replace(hour=start), end_hour_left, price_left)
+            yield TimeBoundedPrice(start_hour_left.replace(hour=start), end_hour_left, price_left, self.__day_left)
+            yield TimeBoundedPrice(start_hour_right.replace(hour=start), end_hour_right, price_right, self.__day_right)
 
     def to_json(self) -> dict[str, Any]:
         return _make_prices_json(self.currency, self.unit, (price.to_json() for price in self.prices))

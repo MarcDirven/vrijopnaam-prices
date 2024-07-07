@@ -1,6 +1,6 @@
 import argparse
-import asyncio
 import json
+import asyncio
 import os
 
 from vrijopnaam_prices._vrijopnaam import VrijOpNaam
@@ -22,11 +22,12 @@ async def main():
     prices = (await get_prices(args.username, args.password, args.gas_prices, args.electricity_prices)).to_json()
     pretty_json = json.dumps(prices, indent=args.indent, ensure_ascii=False).encode('utf8')
     print(pretty_json.decode())
+    return 0
 
 
 def start():
-    asyncio.run(main())
+    return asyncio.run(main())
 
 
 if __name__ == '__main__':
-    start()
+    exit(start())
